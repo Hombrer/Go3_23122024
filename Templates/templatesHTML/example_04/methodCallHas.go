@@ -42,10 +42,7 @@ func Handler4(w http.ResponseWriter, r *http.Request) {
 			ID:    1,
 			Email: "user@email.io",
 			HasPermission: func(feature string) bool {
-				if feature == "feature-b" {
-					return true
-				}
-				return false
+				return feature == "feature-b"
 			},
 		},
 	}
