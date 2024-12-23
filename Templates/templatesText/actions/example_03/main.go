@@ -7,7 +7,7 @@ import (
 
 const msg = `
 Мушкетеры короля это:
-{{range .}}{{print .}} {{end}}
+{{ range . }}{{ print . }} {{ end }}
 `
 
 func main() {

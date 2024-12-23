@@ -25,16 +25,17 @@ type User struct {
         Returns the boolean truth of arg1 >= arg2
 */
 const Msg = `
-{{.Name}}, ваш результат: {{.Score}}
-и ваш уровень: {{if le .Score 50}}Низкий
-{{else if le .Score 80}}Средний
-{{else}}Высокий
-{{end}}
+{{ .Name }}, ваш результат: {{ .Score }}
+и ваш уровень: {{ if le .Score 50 }}Низкий
+{{ else if le .Score 80 }}Средний
+{{ else }}Высокий
+{{ end }}
 `
 
 func main() {
 	u1 := User{"Петр", 30}
 	u2 := User{"Анна", 80}
+	u3 := User{"Maksim", 90}
 
 	t := template.Must(template.New("msg").Parse(Msg))
 	err := t.Execute(os.Stdout, u1)
@@ -42,6 +43,10 @@ func main() {
 		panic(err)
 	}
 	err = t.Execute(os.Stdout, u2)
+	if err != nil {
+		panic(err)
+	}
+	err = t.Execute(os.Stdout, u3)
 	if err != nil {
 		panic(err)
 	}

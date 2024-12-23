@@ -1,20 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"text/template"
 )
 
 // Встраиваемый шаблон
-const Header = `
-{{block "hello" .}}Здравствуйте и добро пожаловать{{end}}`
+const Header = `{{define "hello"}}Здравствуйте и добро пожаловать{{end}}`
 
 // блок с ключевым словом define выполняет шаблон hello
 const Welcome = `
-{{define "hello"}}
+{{define "names"}}{{template "hello"}}
 {{range .}}{{print .}} {{end}}
-{{end}}
+{{end}}{{template "names" .}}
 `
+
+
 
 func main() {
 	musketeers := []string{"Атос", "Портос", "Арамис", "Д`Артаньян"}
@@ -32,6 +34,7 @@ func main() {
 	if err := helloMsg.Execute(os.Stdout, musketeers); err != nil {
 		panic(err)
 	}
+	fmt.Printf("\n=====\n")
 
 	if err := welcomeMsg.Execute(os.Stdout, musketeers); err != nil {
 		panic(err)
