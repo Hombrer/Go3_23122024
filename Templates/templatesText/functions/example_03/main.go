@@ -7,13 +7,15 @@ import (
 )
 
 // Встраиваемый шаблон
-const Header = `{{define "hello"}}Здравствуйте и добро пожаловать{{end}}`
+const Header = `{{block "hello" .}} Text {{end}}`
 
-// блок с ключевым словом define выполняет шаблон hello
+// блок с ключевым словом define выполняет шаблон hello -> {{ template "hello" .}}
+// Замещаем содержимое шаблона "hello"
 const Welcome = `
-{{define "names"}}{{template "hello"}}
+{{define "hello"}}
+Здравствуйте и добро пожаловать
 {{range .}}{{print .}} {{end}}
-{{end}}{{template "names" .}}
+{{end}}
 `
 
 
