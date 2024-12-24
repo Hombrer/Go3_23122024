@@ -1,5 +1,24 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'My New Hugo Site'
-
+sectionPagesMenu = 'main'
 theme = "hugo-theme-m10c"
+
+[menus]
+    [[menus.main]]
+        name = 'Home'
+        pageRef = '/'
+        weight = 10
+    [[menus.main]]
+        name = 'About'
+        pageRef = '/about'
+        weight = 20
+    [[menus.footer]]
+        name = 'tags'
+        pageRef = '/tags'
+        weight = 10
+
+[[params.social]]
+    icon = "brand-github"
+    name = "My Github"
+    url = "https://github.com/hombrer"
