@@ -87,8 +87,8 @@ theme = "ThemeName"
 
 Когда вы выбрали имя темы из каталога, запустите сервер с hugo server --theme=ThemeName и откройте http://localhost:1313  
 
-Вот примеры тем, которые мы можем использовать: 
-**m10c** https://themes.gohugo.io/themes/hugo-theme-m10c/
-**Hugo PaperMod** https://github.com/adityatelange/hugo-PaperMod
-**Beautiful Hugo** https://github.com/halogenica/beautifulhugo
+Вот примеры тем, которые мы можем использовать:  
+**m10c** https://themes.gohugo.io/themes/hugo-theme-m10c/  
+**Hugo PaperMod** https://github.com/adityatelange/hugo-PaperMod  
+**Beautiful Hugo** https://github.com/halogenica/beautifulhugo  
 
