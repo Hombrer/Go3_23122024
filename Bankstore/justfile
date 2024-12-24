@@ -1,0 +1,26 @@
+set dotenv-load
+
+
+# Start postgres db service
+pg_start:
+    docker compose start
+
+# Stop postgres db service
+pg_stop:
+    docker compose stop
+
+# Create bankdb
+createdb:
+    docker compose exec db createdb --username=$POSTGRES_USER --owner=$POSTGRES_USER bankdb
+
+# Drop bankdb:
+dropdb:
+    docker compose exec db dropdb -U $POSTGRES_USER bankdb
+
+# Apply migration to create tables
+migrateup:
+    migrate -path db/migrations -database "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/bankdb?sslmode=disable" -verbose up
+
+# Apply migration to delete tables
+migratedown:
+    migrate -path db/migrations -database "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/bankdb?sslmode=disable" -verbose down    
