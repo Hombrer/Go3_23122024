@@ -7,35 +7,12 @@ package db
 import (
 	"Bankstore/utils"
 	"context"
-	"log"
-	"os"
 	"testing"
 	"time"
-
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/require"
 )
 
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://app_user:pswd@localhost:5432/bankdb?sslmode=disable"
-)
-
-var ctx = context.Background()
-
-var testQueries *Queries
-
-func TestMain(m *testing.M) {
-	conn, err := pgx.Connect(ctx, dbSource)
-	if err != nil {
-		log.Fatal("can not connect to db", err)
-	}
-	defer conn.Close(ctx)
-
-	testQueries = New(conn)
-
-	os.Exit(m.Run())
-}
 
 func TestCreateAccount(t *testing.T){
 	createRandomAccount(t)
@@ -49,7 +26,7 @@ func createRandomAccount(t *testing.T) Account {
 		Balance: ra.Balance,
 		Currency: Currency(ra.Currency),
 	}
-	account, err := testQueries.CreateAccount(ctx, arg)
+	account, err := testQueries.CreateAccount(context.Background(), arg)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, account)
@@ -66,7 +43,7 @@ func createRandomAccount(t *testing.T) Account {
 
 func TestGetAccount(t *testing.T) {
 	account1 := createRandomAccount(t)
-	account2, err := testQueries.GetAccount(ctx, account1.ID)
+	account2, err := testQueries.GetAccount(context.Background(), account1.ID)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, account2)
@@ -86,7 +63,7 @@ func TestUpdateAccount(t *testing.T) {
 		ID: account1.ID,
 		Balance: utils.RandomInt(0, 1000),
 	}
-	account2, err := testQueries.UpdateAccount(ctx, arg)
+	account2, err := testQueries.UpdateAccount(context.Background(), arg)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, account2)
@@ -101,11 +78,11 @@ func TestUpdateAccount(t *testing.T) {
 
 func TestDeleteAccount(t *testing.T) {
 	account1 := createRandomAccount(t)
-	err := testQueries.DeleteAccount(ctx, account1.ID)
+	err := testQueries.DeleteAccount(context.Background(), account1.ID)
 
 	require.NoError(t, err)
 
-	account2, err := testQueries.GetAccount(ctx, account1.ID)
+	account2, err := testQueries.GetAccount(context.Background(), account1.ID)
 	
 	require.Error(t, err)
 	require.Empty(t, account2)
@@ -122,7 +99,7 @@ func TestListAccounts(t *testing.T) {
 		Offset: 5,
 	}
 
-	accounts, err := testQueries.ListAccounts(ctx, arg)
+	accounts, err := testQueries.ListAccounts(context.Background(), arg)
 
 	require.NoError(t, err)
 	require.Len(t, accounts, 5)
