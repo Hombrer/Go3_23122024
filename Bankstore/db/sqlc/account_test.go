@@ -5,13 +5,15 @@ Pattern: <filename>_test.go
 package db
 
 import (
+	"Bankstore/utils"
 	"context"
 	"log"
 	"os"
 	"testing"
+	"time"
+
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/require"
-	"Bankstore/utils"
 )
 
 const (
@@ -58,6 +60,21 @@ func createRandomAccount(t *testing.T) Account {
 
 	require.NotZero(t, account.ID)
 	require.NotZero(t, account.CreatedAt)
-	
+
 	return account
+}
+
+func TestGetAccount(t *testing.T) {
+	account1 := createRandomAccount(t)
+	account2, err := testQueries.GetAccount(ctx, account1.ID)
+
+	require.NoError(t, err)
+	require.NotEmpty(t, account2)
+
+	// test all fields
+	require.Equal(t, account1.ID, account2.ID)
+	require.Equal(t, account1.Owner, account2.Owner)
+	require.Equal(t, account1.Balance, account2.Balance)
+	require.Equal(t, account1.Currency, account2.Currency)
+	require.WithinDuration(t, account1.CreatedAt.Time, account2.CreatedAt.Time, time.Second)
 }
