@@ -6,12 +6,11 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"testing"
-
 	"github.com/jackc/pgx/v5"
+	"github.com/stretchr/testify/require"
 )
 
 const (
@@ -36,5 +35,14 @@ func TestMain(m *testing.M) {
 }
 
 func TestCreateAccount(t *testing.T){
-	fmt.Println("Run test")
+	arg := CreateAccountParams {
+		Owner: "Petr",
+		Balance: 100,
+		Currency: "EUR",
+	}
+
+	account, err := testQueries.CreateAccount(ctx, arg)
+
+	require.NoError(t, err)
+	require.NotEmpty(t, account)
 }
