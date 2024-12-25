@@ -3,6 +3,7 @@ module Bankstore
 go 1.23.1
 
 require (
+	github.com/go-faker/faker/v4 v4.5.0
 	github.com/jackc/pgx/v5 v5.7.2
 	github.com/stretchr/testify v1.8.1
 )

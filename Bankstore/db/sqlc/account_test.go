@@ -11,6 +11,7 @@ import (
 	"testing"
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/require"
+	"Bankstore/utils"
 )
 
 const (
@@ -35,12 +36,14 @@ func TestMain(m *testing.M) {
 }
 
 func TestCreateAccount(t *testing.T){
-	arg := CreateAccountParams {
-		Owner: "Petr",
-		Balance: 100,
-		Currency: "EUR",
-	}
 
+	ra := utils.RandomAccount()
+	arg := CreateAccountParams {
+		Owner: ra.Owner,
+		// Balance: utils.RandomInt(0, 1000),
+		Balance: ra.Balance,
+		Currency: Currency(ra.Currency),
+	}
 	account, err := testQueries.CreateAccount(ctx, arg)
 
 	require.NoError(t, err)
