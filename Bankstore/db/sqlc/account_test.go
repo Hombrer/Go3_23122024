@@ -36,7 +36,10 @@ func TestMain(m *testing.M) {
 }
 
 func TestCreateAccount(t *testing.T){
+	createRandomAccount(t)
+}
 
+func createRandomAccount(t *testing.T) Account {
 	ra := utils.RandomAccount()
 	arg := CreateAccountParams {
 		Owner: ra.Owner,
@@ -48,4 +51,13 @@ func TestCreateAccount(t *testing.T){
 
 	require.NoError(t, err)
 	require.NotEmpty(t, account)
+
+	require.Equal(t, arg.Owner, account.Owner)
+	require.Equal(t, arg.Balance, account.Balance)
+	require.Equal(t, arg.Currency, account.Currency)
+
+	require.NotZero(t, account.ID)
+	require.NotZero(t, account.CreatedAt)
+	
+	return account
 }
