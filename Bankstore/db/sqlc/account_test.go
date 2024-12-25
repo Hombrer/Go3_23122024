@@ -98,3 +98,35 @@ func TestUpdateAccount(t *testing.T) {
 	require.Equal(t, account1.Currency, account2.Currency)
 	require.WithinDuration(t, account1.CreatedAt.Time, account2.CreatedAt.Time, time.Second)
 }
+
+func TestDeleteAccount(t *testing.T) {
+	account1 := createRandomAccount(t)
+	err := testQueries.DeleteAccount(ctx, account1.ID)
+
+	require.NoError(t, err)
+
+	account2, err := testQueries.GetAccount(ctx, account1.ID)
+	
+	require.Error(t, err)
+	require.Empty(t, account2)
+	require.EqualError(t, err, pgx.ErrNoRows.Error())
+}
+
+func TestListAccounts(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		createRandomAccount(t)
+	}
+
+	arg := ListAccountsParams {
+		Limit: 5,
+		Offset: 5,
+	}
+
+	accounts, err := testQueries.ListAccounts(ctx, arg)
+
+	require.NoError(t, err)
+	require.Len(t, accounts, 5)
+	for _, account := range accounts {
+		require.NotEmpty(t, account)
+	}
+}
