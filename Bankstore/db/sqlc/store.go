@@ -79,11 +79,11 @@ func (store *Store) TransferTx (ctx context.Context, arg TransferTxParams) (Tran
 
 		// Step 3. Update account's balances
 		// TODO
-		// ==========
-		// Wrong way
-		// ==========
+		// ======================
+		// Wrong way -> Right way
+		// ======================
 		// move money out of account1
-		account1, err := q.GetAccount(ctx, arg.FromAccountID)
+		account1, err := q.GetAccountForUpdate(ctx, arg.FromAccountID)
 		if err != nil {
 			return err
 		}
@@ -95,7 +95,7 @@ func (store *Store) TransferTx (ctx context.Context, arg TransferTxParams) (Tran
 			return err
 		}
 		// move money to account2
-		account2, err := q.GetAccount(ctx, arg.ToAccountID)
+		account2, err := q.GetAccountForUpdate(ctx, arg.ToAccountID)
 		if err != nil {
 			return err
 		}
