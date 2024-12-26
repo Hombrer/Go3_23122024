@@ -29,7 +29,23 @@ type CreateAccountRequest struct {
 }
 
 func (server *Server) CreateAccount(ctx *gin.Context) {
-	// TODO
+	var req CreateAccountRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponce(err))
+	}
+
+	arg := db.CreateAccountParams {
+		Owner: req.Owner,
+		Currency: req.Currency,
+		Balance: 0,
+	}
+
+	account, err := server.store.CreateAccount(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponce(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, account)
 }
 
 // errorResponce return gin.H -> map[string]interface{}
