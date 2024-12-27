@@ -18,7 +18,7 @@ func RandomInt(min, max int64) int64 {
 }
 
 type RandomAccountParams struct {
-	Owner string `faker:"first_name"`
+	Owner string `faker:"username"`
 	Balance int64 
 	Currency string `faker:"oneof: USR, EUR"`
 }

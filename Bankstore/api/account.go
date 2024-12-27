@@ -89,6 +89,9 @@ type updateAccountRequest struct {
 
 func (server *Server) UpdateAccount(ctx *gin.Context) {
 	var req updateAccountRequest
+	// NOTE: as option -> bind all data from request for Gin
+	// https://github.com/gin-gonic/gin/pull/2812
+	// https://github.com/tangx/ginbinder
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponce(err))
 	}

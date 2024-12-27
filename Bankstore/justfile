@@ -1,4 +1,6 @@
+set dotenv-path := "./app.env"
 set dotenv-load
+
 
 # Create postgres container
 pg_up:
@@ -24,13 +26,21 @@ createdb:
 dropdb:
     docker compose exec db dropdb -U $POSTGRES_USER bankdb
 
-# Apply migration to create tables
+# Apply migration to create all tables
 migrateup:
     migrate -path db/migrations -database "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/bankdb?sslmode=disable" up
 
-# Apply migration to delete tables
+# Apply only one migration
+migrateup1:
+    migrate -path db/migrations -database "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/bankdb?sslmode=disable" -verbose up 1
+
+# Apply all migration to delete tables
 migratedown:
-    migrate -path db/migrations -database "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/bankdb?sslmode=disable" down    
+    migrate -path db/migrations -database "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/bankdb?sslmode=disable" down 
+
+# Apply only one migration to delete 
+migratedown1:
+    migrate -path db/migrations -database "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/bankdb?sslmode=disable" -verbose down 1      
 
 # Generate code
 sqlc:
