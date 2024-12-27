@@ -1,10 +1,11 @@
-
 package api
 
 import (
-	"net/http"
-	"github.com/gin-gonic/gin"
 	db "Bankstore/db/sqlc"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5"
 )
 
 
@@ -28,6 +29,33 @@ func (server *Server) CreateAccount(ctx *gin.Context) {
 
 	account, err := server.store.CreateAccount(ctx, arg)
 	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponce(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, account)
+}
+
+// URL: /accounts/1 
+// URL: /accounts/2
+// ... 
+// URL: /accounts/n-1
+// URL: /accounts/n
+type getAccountRequest struct {
+	ID int64 `uri:"id" binding:"require, min=1"`
+}
+
+func (server *Server) GetAccount(ctx *gin.Context) {
+	var req getAccountRequest
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponce(err))
+		return
+	}
+	account, err := server.store.GetAccount(ctx, req.ID)
+	if err != nil {
+		if err == pgx.ErrNoRows{
+			ctx.JSON(http.StatusNotFound, errorResponce(err))
+			return
+		}
 		ctx.JSON(http.StatusInternalServerError, errorResponce(err))
 		return
 	}
