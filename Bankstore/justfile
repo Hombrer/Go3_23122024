@@ -1,5 +1,12 @@
 set dotenv-load
 
+# Create postgres container
+pg_up:
+    docker compose up -d
+
+# Remove postgres container
+pg_down:
+    docker compose down
 
 # Start postgres db service
 pg_start:
@@ -32,3 +39,7 @@ sqlc:
 # Testing code
 test:
     go test -v -cover -timeout 180s ./... -count=1
+
+# Start server
+server:
+    go run main.go
