@@ -7,11 +7,11 @@ GET {{baseURL}}/accounts/1 HTTP/1.1
 Accept: application/json
 
 ### Create new account
-POST {{HOST}}{{PORT}}/accounts
+POST {{baseURL}}/accounts
 Content-Type: application/json
 
 {
-    "Owner": "Anna",
+    "Owner": "AnnaNTSNDD",
     "Currency": "USR"
 }
 
@@ -31,3 +31,14 @@ Content-Type: application/json
 ### Delete account by id
 DELETE {{baseURL}}/accounts/11
 Accept: application/json
+
+### Create new user
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+    "username": "AnnaNTSNDD",
+    "password": "hellohi",
+    "full_name": "Anna Ivanova",
+    "email": "annansatuhsatuhsa@mail.com"
+}

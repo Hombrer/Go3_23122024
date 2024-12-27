@@ -6,12 +6,12 @@ import (
 	"Bankstore/utils"
 	"context"
 	"log"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-
 func main() {
-	config, err := utils.LoadConfig(".")	
+	config, err := utils.LoadConfig(".")
 	if err != nil {
 		log.Fatal("can not read config file", err)
 	}
