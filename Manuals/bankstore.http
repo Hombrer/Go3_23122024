@@ -18,3 +18,7 @@ Content-Type: application/json
 ### Get accounts
 GET {{baseURL}}/accounts/?page_id=2&page_size=10
 Accept: application/json
+
+### Get account by id
+DELETE {{baseURL}}/accounts/11
+Accept: application/json

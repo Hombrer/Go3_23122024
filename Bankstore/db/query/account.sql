@@ -1,3 +1,5 @@
+-- https://docs.sqlc.dev/en/stable/reference/query-annotations.html
+
 -- name: CreateAccount :one
 INSERT INTO accounts (
     owner,
@@ -28,7 +30,7 @@ SET balance = $1
 WHERE id = $2
 RETURNING *;
 
--- name: DeleteAccount :exec
+-- name: DeleteAccount :execrows
 DELETE FROM accounts
 WHERE id = $1;
 
