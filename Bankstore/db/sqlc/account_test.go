@@ -19,9 +19,11 @@ func TestCreateAccount(t *testing.T){
 }
 
 func createRandomAccount(t *testing.T) Account {
+	user := createRandomUser(t)
+
 	ra := utils.RandomAccount()
 	arg := CreateAccountParams {
-		Owner: ra.Owner,
+		Owner: user.Username, // change because it's foreign key now
 		// Balance: utils.RandomInt(0, 1000),
 		Balance: ra.Balance,
 		Currency: Currency(ra.Currency),

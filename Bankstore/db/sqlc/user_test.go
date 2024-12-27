@@ -5,9 +5,8 @@ import (
 	"context"
 	"testing"
 	"time"
-	"github.com/jackc/pgx/v5"
+
 	"github.com/stretchr/testify/require"
-	
 )
 
 func createRandomUser(t *testing.T) User {
