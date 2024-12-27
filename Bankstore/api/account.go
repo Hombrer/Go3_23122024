@@ -82,9 +82,28 @@ func (server *Server) ListAccounts(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, accounts)
 }
 
-// Add PUT and DELETE urls and their endpoints
-type DeleteAccountRequest struct {
-	ID int64 `json:"id" binding:"required"`
+type updateAccountRequest struct {
+	ID      int64 `json:"id" binding:"required,min=1"`
+	Balance int64 `json:"balance" binding:"required,min=0"`
+}
+
+func (server *Server) UpdateAccount(ctx *gin.Context) {
+	var req updateAccountRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponce(err))
+	}
+
+	arg := db.UpdateAccountParams{
+		ID:      req.ID,
+		Balance: req.Balance,
+	}
+
+	account, err := server.store.UpdateAccount(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponce(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, account)
 }
 
 type deleteAccountRequest struct {

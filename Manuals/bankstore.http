@@ -3,7 +3,7 @@
 @baseURL = {{HOST}}{{PORT}}
 
 ### Get account by id
-GET {{baseURL}}/accounts/10 HTTP/1.1
+GET {{baseURL}}/accounts/1 HTTP/1.1
 Accept: application/json
 
 ### Create new account
@@ -19,6 +19,15 @@ Content-Type: application/json
 GET {{baseURL}}/accounts/?page_id=2&page_size=10
 Accept: application/json
 
-### Get account by id
+### Update account by id
+PUT {{baseURL}}/accounts
+Content-Type: application/json
+
+{
+    "ID": 1,
+    "Balance": 50
+}
+
+### Delete account by id
 DELETE {{baseURL}}/accounts/11
 Accept: application/json
