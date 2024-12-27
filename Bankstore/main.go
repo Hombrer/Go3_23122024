@@ -3,19 +3,20 @@ package main
 import (
 	"Bankstore/api"
 	db "Bankstore/db/sqlc"
+	"Bankstore/utils"
 	"context"
 	"log"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-const (
-	dbSource = "postgresql://app_user:pswd@localhost:5432/bankdb?sslmode=disable"
-	serverAddress = "0.0.0.0:8080"
-)
-
 
 func main() {
-	pool, err := pgxpool.New(context.Background(), dbSource)
+	config, err := utils.LoadConfig(".")	
+	if err != nil {
+		log.Fatal("can not read config file", err)
+	}
+
+	pool, err := pgxpool.New(context.Background(), config.DBSource)
 	if err != nil {
 		log.Fatal("can not connect to db", err)
 	}
@@ -25,7 +26,7 @@ func main() {
 	store := db.NewStore(pool)
 	server := api.NewServer(store)
 
-	err = server.Start(serverAddress)
+	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("Can not start server", err)
 	}
